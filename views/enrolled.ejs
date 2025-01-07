@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Enrolled Events</title>
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        .card-img-top {
+            height: 200px; /* Set a fixed height for images */
+            object-fit: cover; /* Ensures images are cropped to fit the container */
+        }
+        .card {
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+        }
+        .card-body {
+            flex-grow: 1;
+        }
+        .card-footer {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+    </style>
+</head>
+<body>
+    <%-include('partials/navbar')%>
+    <div class="container mt-4">
+        <h3>Enrolled Events</h3>
+        <div id="events-container" class="row"></div>
+    </div>
+    <script>
+        async function fetchEnrolledEvents() {
+            try {
+                const response = await fetch('/api/<%= userId %>/enrolled');
+                const data = await response.json();
+
+                if (response.ok) {
+                    const eventsContainer = document.getElementById('events-container');
+                    if (data.enrolledEvents.length > 0) {
+                        data.enrolledEvents.forEach(event => {
+                            const eventCard = `
+                                <div class="col-md-4">
+                        <div class="card mb-4">
+                            <img src="${event.image}" class="card-img-top" alt="${event.eventName}">
+                            <div class="card-body">
+                                <h5 class="card-title">${event.eventName}</h5>
+                                <p class="card-text">${event.description}</p>
+                            </div>
+                            
+                            <div class="card-footer">
+                                <button class="btn btn-secondary btn-sm" onclick="cancelRegistration('${event._id}')">Cancel Registration</button>
+                            </div>
+                        </div>
+                    </div>
+                        `;
+                            eventsContainer.innerHTML += eventCard;
+                        });
+                    } else {
+                        eventsContainer.innerHTML = '<p>No enrolled events found.</p>';
+                    }
+                } else {
+                    console.error('Error fetching enrolled events:', data.error);
+                    eventsContainer.innerHTML = '<p>Error fetching enrolled events.</p>';
+                }
+            } catch (error) {
+                console.error('Error:', error);
+                document.getElementById('events-container').innerHTML = '<p>Error fetching enrolled events.</p>';
+            }
+        }
+
+        async function cancelRegistration(eventId) {
+            if (confirm('Are you sure you want to cancel your registration for this event?')) {
+                try {
+                    const response = await fetch(`/api/cancel-registration/${eventId}`, {
+                        method: 'DELETE',
+                        headers: {
+                            'Content-Type': 'application/json'
+                        }
+                    });
+                    if (response.ok) {
+                        window.location.reload();
+                    } else {
+                        alert('Error canceling registration.');
+                    }
+                } catch (error) {
+                    console.error('Error:', error);
+                    alert('Error canceling registration.');
+                }
+            }
+        }
+
+        fetchEnrolledEvents();
+    </script>
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.4/dist/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+</body>
+</html>

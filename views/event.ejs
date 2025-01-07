@@ -1,0 +1,206 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>
+        <%= event.eventName %>
+    </title>
+    <!-- Bootstrap CSS -->
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Custom Styles -->
+    <style>
+        /* Header Styling with Image */
+        .event-header {
+            background-image: url('<%= event.image %>');
+            background-size: cover;
+            background-position: center;
+            color: white;
+            padding: 80px 15px;
+            /* Add padding on left and right of the image */
+            text-shadow: 2px 2px 5px rgba(0, 0, 0, 0.5);
+        }
+
+        .event-header h1 {
+            font-size: 3.5rem;
+            font-weight: bold;
+            margin-bottom: 10px;
+        }
+
+        .event-header p {
+            font-size: 1.25rem;
+        }
+
+        /* Event Details Section */
+        .event-details {
+            margin-top: 40px;
+        }
+
+        .event-details .row {
+            margin-bottom: 30px;
+        }
+
+        /* Flexbox layout for description, agenda, and contact to align */
+        .event-info-container {
+            display: flex;
+            justify-content: space-between;
+            flex-wrap: wrap;
+        }
+
+        .event-info {
+            background-color: #f8f9fa;
+            padding: 20px;
+            border-radius: 10px;
+            width: 48%;
+            /* Ensures both boxes are aligned with each other */
+            margin-bottom: 20px;
+        }
+
+        .event-info h5 {
+            font-weight: bold;
+        }
+
+        /* Responsive adjustments */
+        @media (max-width: 768px) {
+            .event-info-container {
+                flex-direction: column;
+                align-items: stretch;
+            }
+
+            .event-info {
+                width: 100%;
+            }
+        }
+
+        /* Register Button Styling */
+        .register-btn-container {
+            text-align: center;
+            margin-top: 40px;
+        }
+
+        .register-btn {
+            padding: 15px 30px;
+            font-size: 1.25rem;
+            background-color: #dc3545;
+            /* btn-danger color */
+            border: none;
+            border-radius: 5px;
+            color: white;
+            text-transform: uppercase;
+            font-weight: bold;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+
+        .register-btn:hover {
+            background-color: #c82333;
+            /* Darker red on hover */
+        }
+    </style>
+</head>
+
+<body>
+    <!-- Navbar -->
+    <%- include('partials/navbar') %>
+
+        <!-- Event Header with Cover Image -->
+        <div class="event-header text-center text-white">
+            <div class="container">
+                <h1>
+                    <%= event.eventName %>
+                </h1>
+                <p>
+                    <%= event.eventLocation %> | <%= new Date(event.eventDate).toLocaleDateString() %> | <%=
+                                event.eventTime %>
+                </p>
+            </div>
+        </div>
+
+        <!-- Event Details -->
+        <div class="container event-details">
+            <div class="event-info-container">
+                <!-- Left Column: Event Description -->
+                <div class="event-info">
+                    <h5>Description</h5>
+                    <p>
+                        <%= event.description %>
+                    </p>
+                </div>
+
+                <!-- Right Column: Event Agenda and Contact -->
+                <div class="event-info">
+                    <h5>Agenda</h5>
+                    <p>
+                        <%= event.agenda %>
+                    </p>
+                    <h5>Contact</h5>
+                    <p>
+                        <%= event.contact %>
+                    </p>
+                </div>
+            </div>
+
+            <!-- Additional Event Information -->
+            <div class="row">
+                <div class="col-md-6">
+                    <div class="event-info">
+                        <h5>Event Category</h5>
+                        <p>
+                            <%= event.category.charAt(0).toUpperCase() + event.category.slice(1) %>
+                        </p>
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="event-info">
+                        <h5>Capacity</h5>
+                        <p>
+                            <%= event.capacity %> People
+                        </p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Register Button -->
+            <div class="register-btn-container">
+                <button id="registerButton" class="register-btn">Register Now</button>
+            </div>
+        </div>
+
+        <script>
+            document.getElementById("registerButton").addEventListener("click", async () => {
+                const confirmRegistration = confirm("Are you sure you want to register for this event?");
+                
+               
+                if (confirmRegistration) {
+                    try {
+                        const response = await fetch(`/register/<%= event._id %>`, {
+                            method: "POST",
+                            headers: {
+                                "Content-Type": "application/json",
+                            },
+                        });
+
+                        if (response.ok) {
+                            alert("Successfully registered for the event!");
+                            window.location.href = "/"; // Redirect to home or desired page
+                        } else {
+                            const errorMessage = await response.text();
+                            alert(`Error: ${errorMessage}`);
+                        }
+                    } catch (error) {
+                        console.error("Error:", error);
+                        alert("An error occurred while registering for the event.");
+                    }
+                }
+            });
+        </script>
+
+
+        <!-- Bootstrap JS & jQuery -->
+        <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+        <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.3/dist/umd/popper.min.js"></script>
+        <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+</body>
+
+</html>

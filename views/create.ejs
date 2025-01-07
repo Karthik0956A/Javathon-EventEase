@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Create Event</title>
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+</head>
+<body>
+    <div class="container mt-4">
+        <h1>Create Event</h1>
+        <form id="createEventForm" action="/dashboard/create" method="POST">
+            <div class="form-group">
+                <label for="eventName">Event Name</label>
+                <input type="text" class="form-control" id="eventName" name="eventName" required>
+            </div>
+            <div class="form-group">
+                <label for="eventLocation">Event Location</label>
+                <input type="text" class="form-control" id="eventLocation" name="eventLocation" required>
+            </div>
+            <div class="form-group">
+                <label for="eventTime">Event Time</label>
+                <input type="time" class="form-control" id="eventTime" name="eventTime" required>
+            </div>
+            <div class="form-group">
+                <label for="eventDate">Event Date</label>
+                <input type="date" class="form-control" id="eventDate" name="eventDate" required>
+            </div>
+            <div class="form-group">
+                <label for="description">Description</label>
+                <textarea class="form-control" id="description" name="description" required></textarea>
+            </div>
+            <div class="form-group">
+                <label for="agenda">Agenda</label>
+                <textarea class="form-control" id="agenda" name="agenda" required></textarea>
+            </div>
+            <div class="form-group">
+                <label for="contact">Contact</label>
+                <input type="text" class="form-control" id="contact" name="contact" required>
+            </div>
+            <div class="form-group">
+                <label for="capacity">Capacity</label>
+                <input type="number" class="form-control" id="capacity" name="capacity" required>
+            </div>
+            <div class="form-group">
+                <label for="category">Category</label>
+                <select class="form-control" id="category" name="category" required>
+                    <option value="conference">Conference</option>
+                    <option value="workshop">Workshop</option>
+                    <option value="meetup">Meetup</option>
+                </select>
+            </div>
+            <div class="form-group">
+                <label for="image">Event Image URL</label>
+                <input type="text" class="form-control" id="image" name="image" placeholder="Enter image URL" required>
+            </div>
+            <div class="d-grid">
+                <button type="submit" class="btn btn-primary">Create Event</button>
+            </div>
+        </form>
+    </div>
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.4/dist/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+</body>
+</html>

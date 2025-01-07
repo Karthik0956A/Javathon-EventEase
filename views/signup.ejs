@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Signup</title>
+    <style>
+        /* Global Styles */
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background: linear-gradient(135deg, #6c63ff, #6c63ff); /* Mono Gradient Background */
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            color: #fff;
+        }
+
+        h1 {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+
+        /* Container */
+        .signup-container {
+            background: #ffffff; /* Solid white container */
+            border-radius: 10px;
+            padding: 30px;
+            width: 100%;
+            max-width: 400px;
+            box-shadow: 0 8px 15px rgba(0, 0, 0, 0.1); /* Smooth shadow */
+            text-align: center;
+            box-sizing: border-box;
+        }
+
+        /* Form Styles */
+        form {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+        }
+
+        input {
+            padding: 10px;
+            font-size: 16px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            outline: none;
+            transition: box-shadow 0.3s ease, border-color 0.3s ease;
+        }
+
+        input:focus {
+            box-shadow: 0 4px 10px rgba(108, 99, 255, 0.3); /* Smooth shadow on focus */
+            border-color: #6c63ff; /* Border highlight */
+        }
+
+        button {
+            padding: 10px;
+            font-size: 16px;
+            color: #fff;
+            background: #6c63ff; /* Mono color background */
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: box-shadow 0.3s ease, transform 0.2s ease;
+        }
+
+        button:hover {
+            box-shadow: 0 6px 12px rgba(108, 99, 255, 0.4); /* Lift shadow on hover */
+            transform: translateY(-2px); /* Slight lift effect */
+        }
+
+        /* Footer Text */
+        p {
+            text-align: center;
+            font-size: 14px;
+            color: #666;
+        }
+
+        p a {
+            color: #6c63ff;
+            text-decoration: none;
+            font-weight: bold;
+        }
+
+        p a:hover {
+            text-decoration: underline;
+        }
+
+        /* Responsive Design */
+        @media (max-width: 500px) {
+            .signup-container {
+                padding: 20px;
+            }
+
+            h1 {
+                font-size: 24px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="signup-container">
+        <h1>Signup</h1>
+        <form action="/signup" method="POST">
+            <input type="text" name="username" placeholder="Username" required />
+            <input type="email" name="email" placeholder="Email" required />
+            <input type="text" name="phone" placeholder="Phone Number" required />
+            <input type="password" name="password" placeholder="Password" required />
+            <button type="submit">Sign Up</button>
+        </form>
+        <p>Already have an account? <a href="/login">Login</a></p>
+    </div>
+</body>
+</html>
