@@ -132,7 +132,7 @@
     <script>
         async function deleteEvent(eventId) {
             try {
-                const response = await fetch(`/api/events/${eventId}`, {
+                const response = await fetch(`/dashboard/delete/${eventId}`, {
                     method: 'DELETE'
                 });
                 if (!response.ok) throw new Error('Failed to delete event');
