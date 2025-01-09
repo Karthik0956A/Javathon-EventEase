@@ -6,31 +6,115 @@
     <title>Enrolled Events</title>
     <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
     <style>
-        .card-img-top {
-            height: 200px; /* Set a fixed height for images */
-            object-fit: cover; /* Ensures images are cropped to fit the container */
-        }
+        /* Styling for the cards */
         .card {
+            border-radius: 15px; /* More rounded corners */
+            overflow: hidden; /* Ensures the content stays within the card */
+            box-shadow: 0 6px 12px rgba(0, 0, 0, 0.1); /* Slightly stronger shadow effect */
+            transition: transform 0.3s ease, box-shadow 0.3s ease; /* Smooth transition for hover effects */
             display: flex;
             flex-direction: column;
             justify-content: space-between;
         }
+
+        .card:hover {
+            transform: translateY(-10px); /* Lift the card on hover */
+            box-shadow: 0 12px 24px rgba(0, 0, 0, 0.2); /* Stronger shadow on hover */
+        }
+
+        /* Styling for the card image */
+        .card-img-top {
+            height: 200px; /* Set a fixed height for images */
+            object-fit: cover; /* Ensures images are cropped to fit the container */
+            transition: transform 0.3s ease; /* Smooth transition for hover effects */
+        }
+
+        .card:hover .card-img-top {
+            transform: scale(1.05); /* Slight zoom effect on hover */
+        }
+
+        /* Styling for the card body */
         .card-body {
             flex-grow: 1;
+            background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%); /* Gradient background */
         }
+
+        /* Ensure description text stays at 2 lines and adds ellipsis */
+        .card-text {
+            flex-grow: 1;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            display: -webkit-box;
+            -webkit-line-clamp: 2; /* Limit to 2 lines */
+            -webkit-box-orient: vertical;
+        }
+
+        /* Styling for the card title */
+        .card-title {
+            font-size: 1.25rem; /* Larger font size */
+            font-weight: bold; /* Bold text */
+            color: #333; /* Darker text color */
+        }
+
+        /* Styling for the card footer */
         .card-footer {
+            background-color: transparent; /* Transparent background */
+            border-top: none; /* Remove border */
+            text-align: center; /* Center the text */
             display: flex;
             justify-content: space-between;
             align-items: center;
         }
+
+        .btn-primary {
+            background-color: #004D43; /* Custom button color */
+            border: none; /* Remove border */
+            border-radius: 50px; /* Rounded button */
+            padding: 10px 20px; /* Padding */
+            transition: background-color 0.3s ease; /* Smooth transition for hover effects */
+        }
+
+        .btn-primary:hover {
+            background-color: #00332e; /* Darker color on hover */
+        }
+
+        .btn-danger {
+            background-color: #dc3545; /* Custom button color */
+            border: none; /* Remove border */
+            border-radius: 50px; /* Rounded button */
+            padding: 10px 20px; /* Padding */
+            transition: background-color 0.3s ease; /* Smooth transition for hover effects */
+        }
+
+        .btn-danger:hover {
+            background-color: #c82333; /* Darker color on hover */
+        }
+
+        .btn-secondary {
+            background-color: #6c757d; /* Custom button color */
+            border: none; /* Remove border */
+            border-radius: 50px; /* Rounded button */
+            padding: 10px 20px; /* Padding */
+            transition: background-color 0.3s ease; /* Smooth transition for hover effects */
+        }
+
+        .btn-secondary:hover {
+            background-color: #5a6268; /* Darker color on hover */
+        }
     </style>
 </head>
 <body>
-    <%-include('partials/navbar')%>
+    <%- include('partials/navbar') %>
+
     <div class="container mt-4">
-        <h3>Enrolled Events</h3>
-        <div id="events-container" class="row"></div>
+        <h1 class="mb-4">Enrolled Events</h1>
+        <div class="row" id="events-container">
+            <!-- Event cards will be dynamically inserted here -->
+        </div>
     </div>
+
+    <%- include('partials/footer') %>
+
     <script>
         async function fetchEnrolledEvents() {
             try {
@@ -43,19 +127,18 @@
                         data.enrolledEvents.forEach(event => {
                             const eventCard = `
                                 <div class="col-md-4">
-                        <div class="card mb-4">
-                            <img src="${event.image}" class="card-img-top" alt="${event.eventName}">
-                            <div class="card-body">
-                                <h5 class="card-title">${event.eventName}</h5>
-                                <p class="card-text">${event.description}</p>
-                            </div>
-                            
-                            <div class="card-footer">
-                                <button class="btn btn-secondary btn-sm" onclick="cancelRegistration('${event._id}')">Cancel Registration</button>
-                            </div>
-                        </div>
-                    </div>
-                        `;
+                                    <div class="card mb-4 h-100">
+                                        <img src="${event.image}" class="card-img-top" alt="${event.eventName}">
+                                        <div class="card-body">
+                                            <h5 class="card-title">${event.eventName}</h5>
+                                            <p class="card-text">${event.description}</p>
+                                        </div>
+                                        <div class="card-footer">
+                                            <button class="btn btn-secondary btn-sm" onclick="cancelRegistration('${event._id}')">Cancel Registration</button>
+                                        </div>
+                                    </div>
+                                </div>
+                            `;
                             eventsContainer.innerHTML += eventCard;
                         });
                     } else {
@@ -92,10 +175,7 @@
             }
         }
 
-        fetchEnrolledEvents();
+        window.onload = fetchEnrolledEvents;
     </script>
-    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.4/dist/umd/popper.min.js"></script>
-    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
 </body>
 </html>
