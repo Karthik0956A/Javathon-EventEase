@@ -5,3 +5,4 @@ run npm install
 PORT=4000<br>
 MONGO_URI=Your mongo uri<br>
 SESSION_SECRET=your secret key<br>
+<p>Demo:https://javathon-eventease.onrender.com/</p>
